@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>任务五：基础JavaScript练习（一）</title>
+    <style type="text/css">
+        #container li{
+            display: inline-block;
+            list-style: none;
+            text-align: center;
+            font-size: 2px;
+            background-color: #FF0000;
+            color: #FFF;
+            cursor: pointer;
+            padding: 5px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="number">
+    <input type="button" value="左侧入" id="one">
+    <input type="button" value="右侧入" id="two">
+    <input type="button" value="左侧出" id="three">
+    <input type="button" value="右侧出" id="four">
+    <input type="button" value="排序" id="oInput">
+    <ul id="container">
+    </ul>
+    <script type="text/javascript">
+        var number = document.getElementById('number');
+        var btnOne = document.getElementById("one");
+        var btnTwo = document.getElementById('two');
+        var btnThree = document.getElementById('three');
+        var btnFour = document.getElementById('four');
+        var cont = document.getElementById('container');
+        var count = document.getElementsByTagName('li');
+        var oInput = document.getElementById('oInput');
+        oInput.onclick = bubbleSort;
+        btnOne.onclick = function(){
+            add("left");
+        }
+        btnTwo.onclick = function(){
+            add("right");
+        }
+        function add(dir) {
+            if(count.length > 59){
+                alert("队列个数超限");
+                return;
+            }
+            if(number.value == ""){
+                alert("请输入需要插入的值");
+                return;
+            } else if(isNaN(number.value)){
+             alert("请输入数字");
+         } else if(number.value > 100 || number.value < 10){
+            alert("请输入10-100的数字");
+            return;
+        }else{
+            var oLi = document.createElement("li");
+            oLi.style.height = number.value + "px";
+            oLi.innerHTML = number.value;
+            number.value = "";
+            if (dir == "left") {
+                cont.insertBefore(oLi,cont.firstChild);
+            }
+            if (dir == "right") {
+                cont.appendChild(oLi);
+            }
+        }
+    }
+    btnThree.onclick = function(){
+        cont.removeChild(cont.firstChild);
+    }
+    btnFour.onclick = function(){
+        cont.removeChild(cont.lastChild);
+    }
+        //冒泡排序
+        function bubbleSort() {
+            var len = cont.childNodes.length;
+            if(len <= 1) {
+                return;
+            }
+            for(var i=0; i<len; i++){
+                for(var j=0; j<len-i-1; j++){
+                    setTimeout((function(k){
+                        var nodes = cont.childNodes;
+                        var k0 = parseInt(nodes[k].style.height);
+                        var k1 = parseInt(nodes[k+1].style.height);
+                        if(k0 > k1) {
+                            nodes[k].style.height = k1 + "px";
+                            nodes[k+1].style.height = k0 + "px";
+                        }
+                    })(j),1000);
+                }
+            }
+        }
+        cont.addEventListener("click",function(){
+            if (event.target.nodeName.toLowerCase()=="li") {
+                cont.removeChild(event.target);
+            }
+        },false)
+    </script>
+</body>
+</html>
