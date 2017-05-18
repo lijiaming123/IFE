@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>任务四：基础JavaScript练习（一）</title>
+    <style type="text/css">
+      #container li{
+         display: inline-block;
+         list-style: none;
+         text-align: center;
+         font-size: 30px;
+         background-color: #FF0000;
+         color: #FFF;
+         cursor: pointer;
+         padding: 5px;
+         margin: 5px;
+     }
+ </style>
+</head>
+<body>
+    <textarea id="number"></textarea>
+    <input type="button" value="左侧入" id="one">
+    <input type="button" value="右侧入" id="two">
+    <input type="button" value="左侧出" id="three">
+    <input type="button" value="右侧出" id="four"><br>
+    <input type="text" id="numberTwo">
+    <input type="button" value="查询" id="search">
+    <ul id="container">
+    </ul>
+    <script type="text/javascript">
+    	var number = document.getElementById('number');
+    	var btnOne = document.getElementById("one");
+    	var btnTwo = document.getElementById('two');
+    	var btnThree = document.getElementById('three');
+    	var btnFour = document.getElementById('four');
+    	var cont = document.getElementById('container');
+        var search = document.getElementById("search");
+        search.onclick = onsearch;
+        btnOne.onclick = function(){
+            add("left");
+        }
+        btnTwo.onclick = function(){
+            add("right");
+        }
+        function add(dir) {
+           if(number.value == ""){
+                alert("请输入需要插入的值");//输入框为空，按钮点击时，跳出提示框
+            } else {
+                var oLi = document.createElement("li");
+                oLi.innerHTML = number.value;
+                if (dir == "left") {
+                    cont.insertBefore(oLi,cont.firstChild);
+                }
+                if (dir == "right") {
+                    cont.appendChild(oLi);
+                }
+            }
+        }
+        btnThree.onclick = function(){
+         cont.removeChild(cont.firstChild);
+     }
+        btnFour.onclick = function(){
+         cont.removeChild(cont.lastChild);
+     }
+     cont.addEventListener("click",function(){
+      if (event.target.nodeName.toLowerCase()=="li") {
+         cont.removeChild(event.target);
+     }
+ },false)
+     function onsearch(){
+        var txt = document.getElementById("numberTwo").value;
+        if (txt == "") {
+            alert("请输入你想要查询的内容");
+            return;
+        }
+        var cont = document.getElementById('container');
+        var nodes = cont.childNodes;
+        var len = nodes.length;
+        for (var i = 0; i < len; i++) {
+            var sea = nodes[i];
+            var str = sea.innerText;
+            if (str.indexOf(txt) > -1) {
+                sea.style.backgroundColor = "yellow";
+                sea.style.color = "#fff";
+            }else{
+                sea.style.backgroundColor = "#F00";
+                sea.style.color = "#FFF";
+            }
+        }
+     }
+</script>
+</body>
+</html>
